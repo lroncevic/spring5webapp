@@ -2,6 +2,7 @@ package com.lukaroncevic.spring5webapp.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,15 +17,14 @@ public class Author {
 
     @ManyToMany(mappedBy = "authors")
 
-    private Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 
     public Author(){
     }
 
-    public void Author(String firstName, String lastName, Set<Book> books){
+    public Author(String firstName, String lastName){
         this.firstName = firstName;
         this.lastName = lastName;
-        this.books = books;
     }
 
     public Long getId(){
@@ -70,17 +70,15 @@ public class Author {
     }
 
     @Override
-    public boolean equals(Objects o){
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-
-        return id != null ? id.equals(author.id) : author.id == null;
+        return Objects.equals(id, author.id);
     }
+
     @Override
-    public int hashCode(){
-        return id != null ? id.hashCode() : 0;
+    public int hashCode() {
+        return Objects.hash(id);
     }
-
 }
